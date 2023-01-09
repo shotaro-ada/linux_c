@@ -2,19 +2,26 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 int main()
 {
-    int status;
+    int pid1, pid2, status;
 
-    if (fork() == 0)
+    if ((pid1 = fork()) == 0)
     {
-        printf("子プロセス\n");
-        sleep(5);
+        printf("child1 \n");
+    }
+    else if ((pid2 = fork()) == 0)
+    {
+        printf("child2 \n");
     }
     else
     {
-        wait(&status);
-        printf("親プロセス\n");
+        printf("parent id = %d\n", getpid());
+        printf("pid1 =  %d\n", pid1);
+        printf("pid2 = %d\n", pid2);
+        printf("pid = %d\n", wait(&status));
+        printf("pid = %d\n", wait(&status));
     }
 }
